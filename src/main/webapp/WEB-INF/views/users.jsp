@@ -11,6 +11,11 @@
     <title>Users</title>
 </head>
 <body>
-Users...
+First Name:  ${user.firstName}  <br>
+Last Name:  ${user.lastName} <br>
+Age:  ${user.age} <br>
+${header} <br><br>
+
+
 </body>
 </html>

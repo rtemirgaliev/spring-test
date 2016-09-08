@@ -68,7 +68,7 @@
                 <version>2.2</version>
                 <!--<configuration>-->
                     <!--<path>/test</path>-->
-                    <!--<url>http://localhost:8080/</url>-->
+                    <!--<url>http://localhost:8080/test</url>-->
                 <!--</configuration>-->
             </plugin>
 
