@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.io.*, java.util.*" %><%--
   Created by IntelliJ IDEA.
   User: rinat
@@ -16,14 +17,27 @@
     <h2>HTTP Header Request</h2>
 
 
-    <form action="create" method="POST">
-        First Name: <input type="text" name="firstName">
-        <br />
-        Last Name: <input type="text" name="lastName" />
-        <br>
-        Age: <input type="text" name="age" />
-        <input type="submit" value="Submit" />
-    </form>
+    <%--<form action="create" method="POST">--%>
+        <%--First Name: <input type="text" name="firstName">--%>
+        <%--<br />--%>
+        <%--Last Name: <input type="text" name="lastName" />--%>
+        <%--<br>--%>
+        <%--Age: <input type="text" name="age" />--%>
+        <%--<input type="submit" value="Submit" />--%>
+    <%--</form>--%>
+
+    <form:form method="post" modelAttribute="user" action="create">
+        <form:label path="firstName">First Name</form:label><br/>
+        <form:input path="firstName"/><br/>
+        <br/>
+        <form:label path="lastName">Last Name</form:label><br/>
+        <form:input path="lastName"/><br/>
+        <br/>
+        <form:label path="age">Age</form:label><br/>
+        <form:input path="age"/><br/>
+        <br/>
+        <input type="submit" value="Save"/>
+    </form:form>
 
     <%--<table border="1" align="center">--%>
         <%--<tr bgcolor="#949494">--%>

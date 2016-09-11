@@ -2,14 +2,14 @@ package com.rinat.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class AppInit extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class Bootstrap extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] {AppConfig.class};
+        return new Class<?>[] {RootCtxCfg.class};
     }
 
     protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[] {WebConfig.class};
+        return new Class<?>[] {ServletCtxCfg.class};
     }
 
     protected String[] getServletMappings() {

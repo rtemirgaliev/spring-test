@@ -1,11 +1,9 @@
 package com.rinat.web;
 
 import com.rinat.entities.User;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -15,27 +13,20 @@ import javax.validation.Valid;
 public class UserController {
 
 
-    @GetMapping(value = "/rinat")
-    public ModelAndView getCurrentUser() {
+    @GetMapping(value = "/current")
+    public User getCurrentUser() {
 
         User user = new User("Rinat", "Temirgaliev", 40);
-        ModelAndView mv = new ModelAndView();
 
-        mv.addObject(user);
-        mv.setViewName("users");
-
-        return mv;
+        return user;
     }
 
     @PostMapping(value = "/create")
-    public ModelAndView createUser(@Valid User user) {
+    @ResponseBody
+    public User createUser(@Valid User user) {
 
-        System.out.println(user);
 
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("user", user);
-        mv.setViewName("created");
-        return mv;
+        return user;
     }
 
 }
