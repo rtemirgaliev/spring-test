@@ -1,4 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fmt" uri="http://www.springframework.org/tags" %>
 <%@ page import="java.io.*, java.util.*" %><%--
   Created by IntelliJ IDEA.
   User: rinat
@@ -14,7 +16,8 @@
 <body>
 
 
-    <h2>HTTP Header Request</h2>
+    <%--<h2><spring:message code="title.msg"/></h2>--%>
+
 
 
     <%--<form action="create" method="POST">--%>

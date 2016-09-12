@@ -4,6 +4,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
@@ -12,10 +15,15 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import javax.inject.Inject;
+
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"com.rinat.web"})
 public class ServletCtxCfg extends WebMvcConfigurerAdapter {
+
+    @Inject
+    SpringValidatorAdapter validator;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -50,10 +58,12 @@ public class ServletCtxCfg extends WebMvcConfigurerAdapter {
 
     @Bean
     public LocaleResolver localeResolver() {
-//        return new SessionLocaleResolver();
-        return new CookieLocaleResolver();
+        return new SessionLocaleResolver();
+//        return new CookieLocaleResolver();
     }
 
-
-
+    @Override
+    public Validator getValidator() {
+        return this.validator;
+    }
 }
