@@ -1,6 +1,8 @@
 package com.rinat.web;
 
 import com.rinat.entities.User;
+import com.rinat.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.Map;
 
@@ -17,6 +20,8 @@ import java.util.Map;
 @RequestMapping(value = "/users")
 public class UserController {
 
+    @Autowired
+    UserService userService;
 
     @GetMapping(value = "/current")
     public User getCurrentUser() {
@@ -36,13 +41,23 @@ public class UserController {
 //    @ResponseBody
     public ModelAndView createUser(Map<String, Object> model, @Valid User user, Errors errors) {
 
-        if (errors.hasErrors()) {
-            System.out.println("..Validation Error...");
-            model.put("user", user);
+//        if (errors.hasErrors()) {
+//            System.out.println("..Validation Error...");
+//            model.put("user", user);
+//            return new ModelAndView("/users/create");
+//        }
+
+        System.out.println("Create User Controller");
+
+        try {
+            userService.saveUser(user);
+        } catch (ConstraintViolationException e) {
+            System.out.println("catched errors");
+            model.put("validationErrors", e.getConstraintViolations());
             return new ModelAndView("/users/create");
         }
 
-        System.out.println("Creating User");
+
 
         return new ModelAndView(new RedirectView("/users/current", true, false));
     }

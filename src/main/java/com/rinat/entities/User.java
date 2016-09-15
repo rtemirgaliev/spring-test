@@ -6,11 +6,11 @@ import javax.validation.constraints.Size;
 
 public class User {
 
-    @Size(min = 3)
+    @Size(min = 3, message = "{validate.user.firstName}")
     private String firstName;
-    @Size(min = 3)
+    @Size(min = 3, message = "{validate.user.lastName}")
     private String lastName;
-    @NotNull
+    @NotNull(message = "{validate.user.age}")
     private Integer age;
 
     public User() {
