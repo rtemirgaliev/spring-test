@@ -14,52 +14,47 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "/users")
+@RequestMapping(value = "users")
 public class UserController {
 
     @Autowired
     UserService userService;
 
-    @GetMapping(value = "/current")
-    public User getCurrentUser() {
+    @GetMapping(value = "")
+    public String getAllUsers(Map<String, Object> model) {
 
-        User user = new User("Rinat", "Temirgaliev", 40);
-
-        return user;
+        model.put("userList", userService.getAllUsers());
+        return "/users/all";
     }
 
-    @GetMapping(value = "/create")
-    public String createUser(Map<String, Object> model) {
-        model.put("user", new User());
-        return "users/create";
+    @GetMapping(value = "create")
+    public ModelAndView createUser() {
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("user", new User());
+        mv.setViewName("/users/create");
+        return mv;
     }
 
-    @PostMapping(value = "/create")
-//    @ResponseBody
+    @PostMapping(value = "create")
     public ModelAndView createUser(Map<String, Object> model, @Valid User user, Errors errors) {
 
-//        if (errors.hasErrors()) {
-//            System.out.println("..Validation Error...");
-//            model.put("user", user);
-//            return new ModelAndView("/users/create");
-//        }
-
-        System.out.println("Create User Controller");
+        if (errors.hasErrors()) {
+            model.put("user", user);
+            return new ModelAndView("/users/create");
+        }
 
         try {
             userService.saveUser(user);
         } catch (ConstraintViolationException e) {
-            System.out.println("catched errors");
             model.put("validationErrors", e.getConstraintViolations());
             return new ModelAndView("/users/create");
         }
 
-
-
-        return new ModelAndView(new RedirectView("/users/current", true, false));
+        return new ModelAndView(new RedirectView("/users", true, false));
     }
 
 }
