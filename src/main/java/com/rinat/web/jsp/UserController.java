@@ -2,6 +2,8 @@ package com.rinat.web;
 
 import com.rinat.entities.User;
 import com.rinat.services.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,8 @@ import java.util.Map;
 @RequestMapping(value = "users")
 public class UserController {
 
+    private static final Logger log = LogManager.getLogger();
+
     @Autowired
     UserService userService;
 
@@ -33,6 +37,7 @@ public class UserController {
 
     @GetMapping(value = "create")
     public ModelAndView createUser() {
+
         ModelAndView mv = new ModelAndView();
         mv.addObject("user", new User());
         mv.setViewName("/users/create");
@@ -41,6 +46,7 @@ public class UserController {
 
     @PostMapping(value = "create")
     public ModelAndView createUser(Map<String, Object> model, @Valid User user, Errors errors) {
+
 
         if (errors.hasErrors()) {
             model.put("user", user);
@@ -51,6 +57,7 @@ public class UserController {
             userService.saveUser(user);
         } catch (ConstraintViolationException e) {
             model.put("validationErrors", e.getConstraintViolations());
+
             return new ModelAndView("/users/create");
         }
 
