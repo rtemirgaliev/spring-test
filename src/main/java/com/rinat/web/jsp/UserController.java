@@ -1,4 +1,4 @@
-package com.rinat.web;
+package com.rinat.web.jsp;
 
 import com.rinat.entities.User;
 import com.rinat.services.UserService;
@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping(value = "users")
 public class UserController {
 

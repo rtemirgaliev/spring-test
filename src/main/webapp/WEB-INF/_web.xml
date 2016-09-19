@@ -26,7 +26,7 @@
         </init-param>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>com.rinat.config.ServletCtxCfg</param-value>
+            <param-value>com.rinat.config.JspServletCtxCfg</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>

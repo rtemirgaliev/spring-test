@@ -1,18 +1,45 @@
 package com.rinat.config;
 
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
 
-public class Bootstrap extends AbstractAnnotationConfigDispatcherServletInitializer {
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 
-    protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] {RootCtxCfg.class};
-    }
 
-    protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[] {ServletCtxCfg.class};
-    }
+public class Bootstrap implements WebApplicationInitializer {
 
-    protected String[] getServletMappings() {
-        return new String[] {"/"};
+    @Override
+    public void onStartup(ServletContext container) throws ServletException {
+
+        AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
+        rootContext.register(RootCtxCfg.class);
+        container.addListener(new ContextLoaderListener(rootContext));
+
+        AnnotationConfigWebApplicationContext servletContext = new AnnotationConfigWebApplicationContext();
+        servletContext.register(JspServletCtxCfg.class);
+        ServletRegistration.Dynamic dispatcher = container.addServlet("springDispatcher", new DispatcherServlet(servletContext));
+        dispatcher.setLoadOnStartup(1);
+        dispatcher.addMapping("/");
+
     }
 }
+
+
+//import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+//public class Bootstrap extends AbstractAnnotationConfigDispatcherServletInitializer {
+//protected Class<?>[] getRootConfigClasses() {
+//        return new Class<?>[] {RootCtxCfg.class};
+//        }
+//
+//protected Class<?>[] getServletConfigClasses() {
+//        return new Class<?>[] {ServletCtxCfg.class};
+//        }
+//
+//protected String[] getServletMappings() {
+//        return new String[] {"/"};
+//        }
+//}
