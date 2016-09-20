@@ -3,7 +3,6 @@ package com.rinat.services.impl;
 import com.rinat.entities.User;
 import com.rinat.services.UserService;
 import org.springframework.stereotype.Service;
-
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;

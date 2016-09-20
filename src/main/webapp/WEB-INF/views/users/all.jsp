@@ -26,7 +26,11 @@
     </ul>
 </div></c:if>
 
-<a href="users/create">Create new user</a>
+<%--<a href="users/create">Create new user</a>--%>
+<%--<br/>--%>
+
+<spring:url value="users/create" var="createUser"/>
+<a href="${createUser}">Create New User</a>
 
 </body>
 </html>

@@ -12,6 +12,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 import javax.inject.Inject;
 
@@ -37,16 +38,6 @@ public class JspServletCtxCfg extends WebMvcConfigurerAdapter {
         return resolver;
     }
 
-//    @Override
-//    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-//        //super.configureContentNegotiation(configurer);
-//        configurer.favorPathExtension(true).favorParameter(false)
-//                .parameterName("mediaType").ignoreAcceptHeader(false)
-//                .useJaf(false).defaultContentType(MediaType.APPLICATION_JSON)
-//                .mediaType("xml", MediaType.APPLICATION_XML)
-//                .mediaType("json", MediaType.APPLICATION_JSON);
-//
-//    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

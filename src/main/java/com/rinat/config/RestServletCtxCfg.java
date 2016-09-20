@@ -6,8 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
-import org.springframework.http.converter.xml.SourceHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 import org.springframework.web.servlet.LocaleResolver;
@@ -22,7 +21,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.rinat.web.rest"})
+@ComponentScan(basePackages = {"com.rinat.web.rest", "com.rinat.web.exception"})
 public class RestServletCtxCfg extends WebMvcConfigurerAdapter {
 
     @Inject
@@ -37,7 +36,7 @@ public class RestServletCtxCfg extends WebMvcConfigurerAdapter {
           Additionally we customize the serialization feature in ObjectMapper
          */
 
-        MappingJackson2XmlHttpMessageConverter jsonConverter = new MappingJackson2XmlHttpMessageConverter();
+        MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
         jsonConverter.setSupportedMediaTypes(Arrays.asList(
                 new MediaType("application", "json"),
                 new MediaType("text", "json")));

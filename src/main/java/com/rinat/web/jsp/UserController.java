@@ -19,8 +19,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
-@RestController
-@RequestMapping(value = "users")
+@Controller
+@RequestMapping(value = "/users")
 public class UserController {
 
     private static final Logger log = LogManager.getLogger();
@@ -29,13 +29,13 @@ public class UserController {
     UserService userService;
 
     @GetMapping(value = "")
-    public String getAllUsers(Map<String, Object> model) {
+    public ModelAndView getAllUsers(Map<String, Object> model) {
 
         model.put("userList", userService.getAllUsers());
-        return "/users/all";
+        return new ModelAndView("/users/all");
     }
 
-    @GetMapping(value = "create")
+    @GetMapping(value = "/create")
     public ModelAndView createUser() {
 
         ModelAndView mv = new ModelAndView();
@@ -44,7 +44,7 @@ public class UserController {
         return mv;
     }
 
-    @PostMapping(value = "create")
+    @PostMapping(value = "/create")
     public ModelAndView createUser(Map<String, Object> model, @Valid User user, Errors errors) {
 
 
@@ -61,7 +61,8 @@ public class UserController {
             return new ModelAndView("/users/create");
         }
 
-        return new ModelAndView(new RedirectView("/users", true, false));
+
+        return new ModelAndView("redirect:/jsp/users");
     }
 
 }
