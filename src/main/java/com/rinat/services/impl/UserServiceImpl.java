@@ -14,6 +14,11 @@ public class UserServiceImpl implements UserService {
     List<User> userList = new ArrayList<>();
 
     @Override
+    public User findById(int id) {
+        return userList.get(id);  //id here is the index, not user id;
+    }
+
+    @Override
     public void saveUser(User user) {
         userList.add(user);
     }

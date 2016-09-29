@@ -9,6 +9,8 @@ import java.util.List;
 @Validated
 public interface UserService {
 
+    User findById(int id);
+
     void saveUser(@NotNull(message = "{validate.userService.saveUser.NotNull}") @Valid User user);
 
     List<User> getAllUsers();

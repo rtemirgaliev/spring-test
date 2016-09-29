@@ -23,7 +23,6 @@ public class UserController {
     @GetMapping(value = "")
     public List<User> getAllUsers() {
 
-//        if (true) throw new ResourceNotFoundException("Resource not found");
         return userService.getAllUsers();
     }
 
