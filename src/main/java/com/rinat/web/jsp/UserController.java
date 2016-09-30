@@ -20,49 +20,45 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "/users")
 public class UserController {
 
     private static final Logger log = LogManager.getLogger();
 
+    public static final String CREATE_USER_FORM_VIEW = "users/createUserForm";
+    public static final String ALL_USER_LIST_VIEW = "users/allUserList";
+    public static final String SERVLET_MAPPING_PREFIX = "/jsp";
+
+
     @Autowired
     UserService userService;
 
-    @GetMapping(value = "")
-    public ModelAndView getAllUsers(Map<String, Object> model) {
-
+    @GetMapping(value = "/users")
+    public String getAllUsers(Map<String, Object> model) {
         model.put("userList", userService.getAllUsers());
-        return new ModelAndView("/users/all");
+        return "users/allUserList";
     }
 
-    @GetMapping(value = "/create")
-    public ModelAndView createUser() {
-
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("user", new User());
-        mv.setViewName("/users/create");
-        return mv;
+    @GetMapping(value = "/users/create")
+    public String createUser(Map<String, Object> model) {
+        model.put("user", new User());
+        return CREATE_USER_FORM_VIEW;
     }
 
-    @PostMapping(value = "/create")
-    public ModelAndView createUser(Map<String, Object> model, @Valid User user, Errors errors) {
-
-
+    @PostMapping(value = "/users/create")
+    public String createUser(Map<String, Object> model, @Valid User user, Errors errors) {
         if (errors.hasErrors()) {
             model.put("user", user);
-            return new ModelAndView("/users/create");
+            return CREATE_USER_FORM_VIEW;
+        } else {
+            try {
+                userService.saveUser(user);
+            } catch (ConstraintViolationException e) {
+                model.put("validationErrors", e.getConstraintViolations());
+                return CREATE_USER_FORM_VIEW;
+            }
+            return "redirect:" + SERVLET_MAPPING_PREFIX + "/users";
         }
-
-        try {
-            userService.saveUser(user);
-        } catch (ConstraintViolationException e) {
-            model.put("validationErrors", e.getConstraintViolations());
-
-            return new ModelAndView("/users/create");
-        }
-
-
-        return new ModelAndView("redirect:/jsp/users");
     }
+
 
 }

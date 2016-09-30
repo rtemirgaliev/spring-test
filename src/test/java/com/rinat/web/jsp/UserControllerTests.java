@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -39,17 +40,48 @@ public class UserControllerTests {
         rinat = new User("Rinat", "Temirgaliev", 40);
         userService.saveUser(rinat);
         given(this.userService.findById(TEST_USER_ID)).willReturn(rinat);
-
-
     }
 
     @Test
-    public void testUserCreationForm() throws Exception {
+    public void testGetAllUserList() throws Exception {
+        mockMvc.perform(get("/users"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("userList"))
+                .andExpect(view().name(UserController.ALL_USER_LIST_VIEW));
+    }
+    @Test
+    public void testInitCreateUserForm() throws Exception {
         mockMvc.perform(get("/users/create"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("user"))
-                .andExpect(view().name("/users/create"));
+                .andExpect(view().name(UserController.CREATE_USER_FORM_VIEW));
     }
+    @Test
+    public void testProcessCreateUserFormSuccess() throws Exception {
+        mockMvc.perform(post("/users/create")
+                .param("firstName", "Rinat")
+                .param("lastName", "Temirgaliev")
+                .param("age", "40")
+        )
+                .andExpect(status().is3xxRedirection());
+    }
+    @Test
+    public void testProcessCreateUserFormErrors() throws Exception {
+        mockMvc.perform(post("/users/create")
+                .param("firstName", "")
+                .param("lastName", "")
+                .param("age", "")
+        )
+                .andExpect(status().isOk())
+                .andExpect(model().attributeHasErrors("user"))
+                .andExpect(model().attributeHasFieldErrors("user", "firstName"))
+                .andExpect(model().attributeHasFieldErrors("user", "lastName"))
+                .andExpect(model().attributeHasFieldErrors("user", "age"))
+                .andExpect(view().name(UserController.CREATE_USER_FORM_VIEW));
+    }
+
+
+
 
 
 }
